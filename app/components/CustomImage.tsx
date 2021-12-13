@@ -51,7 +51,7 @@ const CustomImage: React.ComponentType<RenderImageProps<CustomImageProps>> = ({
       data-lg-size={`${photo.lgWidth}-${photo.lgHeight}`} //"1406-1390"
       className="gallery-item"
       data-src={photo.src}
-      data-sub-html={`<h4>${toTitleCase(photo.artist)}</h4><p>${
+      data-sub-html={`<h4 style="color:#eee">${toTitleCase(photo.artist)}</h4><p>${
         photo.cameraMake
       } ${cameraModel} </p><p> ${photo.lens}</p><p>${photo.focalLength}mm | ${
         photo.shutterSpeed
