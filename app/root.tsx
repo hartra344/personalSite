@@ -16,7 +16,6 @@ export function links() {
   return [
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: aosStyle },
-    { rel: "stylesheet", href: "https://use.typekit.net/icb6koq.css" },
   ];
 }
 
