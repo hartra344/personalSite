@@ -38,6 +38,7 @@ const Header = () => {
       <div className="top-bar">
         <div className="header-logo-container">
           <NavLink to="/" className="header-logo">
+            <h2>TH</h2>
             {/* <img src={logo} alt="Jimmy's Logo" /> */}
           </NavLink>
         </div>
