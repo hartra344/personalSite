@@ -68,11 +68,11 @@ const CustomImage: React.ComponentType<RenderImageProps<CustomImageProps>> = ({
           .image(photo.name)
           .resize(
             thumbnail()
-              .width(Math.floor(photo.lgWidth / 3))
-              .height(Math.floor(photo.lgHeight / 3))
+              .width(Math.floor(photo.lgWidth ))
+              .height(Math.floor(photo.lgHeight))
           )
           .format("auto")
-          .quality(80)
+          .quality(65)
           .toURL()}
       />
     </a>
