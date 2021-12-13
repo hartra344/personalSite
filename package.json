@@ -1,0 +1,50 @@
+{
+  "private": true,
+  "name": "remix-app-template",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "npm run sass && remix build",
+    "dev": "concurrently \"remix dev\" \"npm:sass-dev\"",
+    "postinstall": "remix setup node",
+    "deploy": "flyctl deploy",
+    "start": "remix-serve build",
+    "sass": "sass ./app/styles/index.scss ./app/styles/index.css",
+    "sass-dev": "sass ./app/styles/index.scss ./app/styles/index.css --watch"
+  },
+  "dependencies": {
+    "@cloudinary/react": "^1.0.0-beta.14",
+    "@cloudinary/url-gen": "^1.3.0",
+    "@prisma/client": "^3.6.0",
+    "@remix-run/react": "^1.0.6",
+    "@remix-run/serve": "^1.0.6",
+    "aos": "^2.3.4",
+    "cloudinary": "^1.27.1",
+    "cloudinary-react": "^1.7.0",
+    "concurrently": "^6.4.0",
+    "framer-motion": "^5.4.5",
+    "lightgallery": "^2.3.0",
+    "numeric-quantity": "^1.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-justified-grid": "^1.0.0",
+    "react-photo-gallery": "^8.0.0",
+    "react-rotating-text": "^1.4.1",
+    "react-router": "^6.1.0",
+    "remix": "^1.0.6",
+    "resize-observer-polyfill": "^1.5.1"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.0.6",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "prisma": "^3.6.0",
+    "sass": "^1.45.0",
+    "typescript": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}

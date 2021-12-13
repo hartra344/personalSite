@@ -1,0 +1,80 @@
+@use "./variables" as *;
+@use "../utilities/mixins" as *;
+
+/* ------
+   Setting up css variables
+------ */
+:root {
+  --text-color: #{$dark-grey};
+  --heading-color: #{$dark-blue};
+  --bg-color: #{$white};
+}
+
+// General Styling
+body {
+  font-family: $body-text-font;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: $line-height;
+}
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  padding-bottom: 2rem;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-color);
+  font-family: $heading-font;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+a:focus-visible {
+  outline: 2px dashed #e2711d;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.react-rotating-text-cursor {
+  animation: blinking-cursor 0.8s cubic-bezier(0.68, 0.01, 0.01, 0.99) 0s
+    infinite;
+}
+
+@keyframes blinking-cursor {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

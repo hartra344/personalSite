@@ -1,0 +1,217 @@
+@use "../base/variables" as *;
+@use "../utilities/mixins" as *;
+
+.home-container {
+  // for landing section on Page Home
+  .landing {
+    text-align: center;
+    min-height: calc(100vh - 65px - 110px); //72px is the height of the site header
+    padding-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    // svg background for landing section
+    background-color: $white;
+    /* note: background by SVGBackgrounds.com */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1001%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='%230e2a47'%3e%3c/rect%3e%3cpath d='M0%2c433.216C104.17%2c425.04%2c208.688%2c515.549%2c304.438%2c473.715C401.133%2c431.468%2c454.949%2c322.612%2c484.803%2c221.402C512.607%2c127.142%2c464.028%2c31.585%2c463.841%2c-66.69C463.613%2c-186.752%2c542.51%2c-314.421%2c483.585%2c-419.029C424.598%2c-523.746%2c288.108%2c-554.803%2c171.808%2c-585.126C58.169%2c-614.755%2c-66.904%2c-639.958%2c-173.33%2c-590.308C-276.007%2c-542.407%2c-323.8%2c-427.294%2c-378.817%2c-328.247C-424.263%2c-246.432%2c-457.173%2c-160.065%2c-464.158%2c-66.736C-470.801%2c22.032%2c-436.419%2c103.722%2c-417.658%2c190.738C-393.064%2c304.806%2c-437.697%2c465.455%2c-336.782%2c524.043C-234.15%2c583.628%2c-118.311%2c442.502%2c0%2c433.216' fill='%230b2239'%3e%3c/path%3e%3cpath d='M1440 1220.911C1572.843 1228.54 1733.334 1256.444 1826.561 1161.501 1922.295 1064.005 1865.842 899.44 1888.048 764.617 1903.558 670.449 1942.8 583.768 1937.411 488.483 1931.643 386.495 1904.484 289.419 1856.083 199.462 1797.509 90.59800000000001 1743.722-37.803 1629.199-84.35199999999998 1513.116-131.53499999999997 1376.826-94.697 1263.402-41.43799999999999 1158.8 7.678999999999974 1086.409 102.32499999999999 1024.217 199.72199999999998 968.8 286.509 947.264 385.31399999999996 926.502 486.17 904.416 593.458 873.228 700.558 899.213 806.969 928.335 926.226 983.477 1044.063 1080.958 1118.6799999999998 1181.813 1195.879 1313.199 1213.629 1440 1220.911' fill='%23113255'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1001'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+
+    h1 {
+      font-size: 2.2rem;
+      color: $white;
+      margin: $base-spacing 0;
+    }
+
+    p {
+      margin: $base-spacing 0;
+      font-family: $heading-font;
+      color: $white;
+      font-weight: 600;
+    }
+
+    mark {
+      padding: 0 0.2rem;
+      background: $dark-blue;
+      color: $white;
+    }
+
+    .landing-content {
+      width: 95%;
+      margin: 0 auto;
+    }
+
+    @media all and (min-width: 450px) {
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      p {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media all and (min-width: $breakpoint-mobile) {
+      h1 {
+        font-size: 3.3rem;
+        color: $white;
+        margin: $base-spacing 0;
+      }
+
+      .laptop-code-svg {
+        width: 150px;
+      }
+    }
+
+    @media all and (min-width: $breakpoint-tablet) {
+      min-height: calc(100vh - 65px - 110px);
+
+      .landing-content {
+        @include flex-layout-row-center;
+      }
+
+      h1 {
+        font-size: 4rem;
+      }
+
+      .text {
+        text-align: left;
+      }
+
+      .laptop-code-svg {
+        width: 200px;
+        margin-right: $double-spacing;
+      }
+    }
+
+    @media all and (min-width: $breakpoint-desktop) {
+      min-height: calc(100vh - 65px - 110px)
+    }
+
+    @media all and (min-width: 1200px) {
+      // for svg background of the landing section
+      background-attachment: fixed;
+    }
+  }
+
+  .homepage-btn {
+    padding: $small-spacing $base-spacing;
+    border: 2px solid $dark-grey;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-family: $heading-font;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.4s ease-in-out;
+    margin: $base-spacing 0;
+
+    position: relative;
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 0%;
+      background-color: $dark-grey;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      transition: all 0.4s ease-in-out;
+    }
+
+    &:hover {
+      color: $white;
+      .overlay {
+        height: 100%;
+      }
+    }
+  }
+
+  .scroll-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    border: 0;
+    outline: 0;
+    //background-color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+
+    .down-arrow {
+      fill: $dark-grey;
+      transition: all 0.3s;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+  }
+
+  // for brief-intro section on Page Home
+  .brief-intro {
+    background-color: $light-grey;
+
+    min-height: 380px;
+    @include flex-layout-column-center;
+
+    .link-to-about,
+    .link-to-work {
+      span {
+        padding-bottom: 0.1rem;
+        border-bottom: 5px solid $orange;
+        transition: border-color 0.35s ease-in-out;
+
+        &:hover {
+          border-color: red;
+        }
+      }
+    }
+
+    h2 {
+      margin: $base-spacing 0 0 0;
+      text-align: center;
+      font-size: $large-font-size;
+
+      &::after {
+        content: ".";
+        color: $dark-blue;
+      }
+    }
+
+    .text {
+      max-width: 1000px;
+      padding: $base-spacing $double-spacing;
+      margin: 0 auto;
+      font-size: $standard-font-size;
+      line-height: 2;
+    }
+
+    .code-icon {
+      fill: $light-blue;
+    }
+
+    .brush-icon {
+      fill: $orange;
+    }
+
+    @media all and (min-width: 450px) {
+      h2 {
+        font-size: 2.5rem;
+      }
+
+      .text {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media all and (min-width: $breakpoint-tablet) {
+      h2 {
+        font-size: 3rem;
+      }
+    }
+  }
+}
