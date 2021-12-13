@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "build": "npm run sass && remix build",
-    "dev": "concurrently \"remix dev\" \"npm:sass-dev\"",
+    "dev": "npm run sass && concurrently \"remix dev\" \"npm:sass-dev\"",
     "postinstall": "remix setup node",
     "deploy": "flyctl deploy",
     "start": "remix-serve build",
