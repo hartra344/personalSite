@@ -63,6 +63,7 @@ const CustomImage: React.ComponentType<RenderImageProps<CustomImageProps>> = ({
       <img
         loading="lazy"
         alt={photo.name}
+        className="thumbnail"
         src={cld
           .image(photo.name)
           .resize(
