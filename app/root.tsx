@@ -3,6 +3,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -19,6 +20,18 @@ export function links() {
   ];
 }
 
+export const meta: MetaFunction = () => {
+  const description = `Hi, I'm Travis!`;
+  return {
+    description,
+    keywords: "travis,microsoft,developer,software,react,javascript,typescript,photography",
+    "twitter:card": "summary_large_image",
+    "twitter:creator": "@hartra34",
+    "twitter:site": "@hartra34",
+    "twitter:title": "Travis Harris",
+    "twitter:description": description,
+  };
+};
 import Aos from "aos";
 
 const Layout: React.FC = ({ children }) => {
