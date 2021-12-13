@@ -51,11 +51,13 @@ const CustomImage: React.ComponentType<RenderImageProps<CustomImageProps>> = ({
       data-lg-size={`${photo.lgWidth}-${photo.lgHeight}`} //"1406-1390"
       className="gallery-item"
       data-src={photo.src}
-      data-sub-html={`<h4 style="color:#eee">${toTitleCase(photo.artist)}</h4><p>${
-        photo.cameraMake
-      } ${cameraModel} </p><p> ${photo.lens}</p><p>${photo.focalLength}mm | ${
-        photo.shutterSpeed
-      }s | f${photo.fstop} | ${photo.iso} iso</p> `}
+      data-sub-html={`<h4 style="color:#eee">${toTitleCase(
+        photo.artist
+      )}</h4><p>${photo.cameraMake} ${cameraModel} </p><p> ${
+        photo.lens
+      }</p><p>${photo.focalLength}mm | ${photo.shutterSpeed}s | f${
+        photo.fstop
+      } | ${photo.iso} iso</p> `}
       style={{ margin, height: photo.height, width: photo.width, ...cont }}
     >
       <img
@@ -65,10 +67,11 @@ const CustomImage: React.ComponentType<RenderImageProps<CustomImageProps>> = ({
           .image(photo.name)
           .resize(
             thumbnail()
-              .width(Math.floor(photo.width))
-              .height(Math.floor(photo.height))
+              .width(Math.floor(photo.lgWidth / 3))
+              .height(Math.floor(photo.lgHeight / 3))
           )
-          .quality(100)
+          .format("auto")
+          .quality(80)
           .toURL()}
       />
     </a>
