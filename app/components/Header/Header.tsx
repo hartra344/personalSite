@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Nav from "./Nav";
 
-import { hamburgerIcon, closeIcon } from "../Global/icon";
+import { hamburgerIcon, closeIcon, myLogo } from "../Global/icon";
 import { NavLink } from "remix";
 
 const Header = () => {
@@ -38,8 +38,7 @@ const Header = () => {
       <div className="top-bar">
         <div className="header-logo-container">
           <NavLink to="/" className="header-logo">
-            <h2>TH</h2>
-            {/* <img src={logo} alt="Jimmy's Logo" /> */}
+            {myLogo}
           </NavLink>
         </div>
         <button

@@ -13,10 +13,13 @@ import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import styles from "./styles/index.css";
 import aosStyle from "aos/dist/aos.css";
+import favicon from "./components/favicon.png";
+
 export function links() {
   return [
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: aosStyle },
+    { rel: "icon", href: favicon },
   ];
 }
 
@@ -24,7 +27,8 @@ export const meta: MetaFunction = () => {
   const description = `Hi, I'm Travis!`;
   return {
     description,
-    keywords: "travis,microsoft,developer,software,react,javascript,typescript,photography",
+    keywords:
+      "travis,microsoft,developer,software,react,javascript,typescript,photography",
     "twitter:card": "summary_large_image",
     "twitter:creator": "@hartra34",
     "twitter:site": "@hartra34",
