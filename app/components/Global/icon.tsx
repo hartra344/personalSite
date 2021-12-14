@@ -43,6 +43,7 @@ export const downArrow = (
 
 export const myLogo = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 379.04 444.12" height="40px" width="40px">
+    <title>Travis Harris Logo</title>
     <defs></defs>
     <g id="Layer_2" data-name="Layer 2">
       <g id="Layer_1-2" data-name="Layer 1">
