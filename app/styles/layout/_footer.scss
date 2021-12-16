@@ -21,13 +21,13 @@ footer {
   }
 
   .footer-icon {
-    color: #336699;
+    color: $primary;
     margin: 0 1rem;
     font-size: $medium-font-size;
     transition: all 0.3s;
 
     &:hover {
-      color: $dark-blue;
+      color: $primary;
     }
   }
 
