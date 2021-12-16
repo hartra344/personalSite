@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ResizeObserver from "resize-observer-polyfill";
-import Photo, { PhotoPropTypes } from "./Photo";
+import Photo, { PhotoProps } from "./Photo";
 import { computeColumnLayout } from "./layouts/columns";
 import { computeRowLayout } from "./layouts/justified";
 import { findIdealNodeSearch } from "./utils/findIdealNodeSearch";
@@ -136,7 +136,7 @@ const Gallery = React.memo(function Gallery({
 });
 
 export interface GalleryPropTypes {
-  photos: PhotoPropTypes[];
+  photos: PhotoProps[];
   direction?: string;
   onClick?: any;
   columns?: any;
@@ -145,16 +145,6 @@ export interface GalleryPropTypes {
   margin?: number;
   renderImage?: any;
 }
-// Gallery.propTypes = {
-//   photos: PropTypes.arrayOf(photoPropType).isRequired,
-//   direction: PropTypes.string,
-//   onClick: PropTypes.func,
-//   columns: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-//   targetRowHeight: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-//   limitNodeSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
-//   margin: PropTypes.number,
-//   renderImage: PropTypes.func,
-// };
 
 export { Photo };
 export default Gallery;

@@ -2,7 +2,6 @@ import { LoaderFunction, MetaFunction, useLoaderData } from "remix";
 import { db } from "~/utils/db.server";
 
 import { Cloudinary } from "@cloudinary/url-gen";
-import CustomImage from "~/components/CustomImage";
 import Gallery from "~/components/Gallery/Gallery";
 import { Photo } from ".prisma/client";
 import { motion } from "framer-motion";
@@ -72,12 +71,7 @@ export default function Index() {
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.6 }}
     >
-      <Gallery
-        photos={data.photos as any}
-        direction={"column"}
-        renderImage={CustomImage as any}
-        columns={3}
-      />
+      <Gallery photos={data.photos as any} direction={"column"} columns={3} />
     </motion.div>
   );
 }
