@@ -1,21 +1,11 @@
-//Nav.js component, to return a navigation for header section
 import { NavLink } from "remix";
 import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { AiFillGithub } from "react-icons/ai";
 import { gitHubURL, linkedInURL, twitterURL } from "../Global/globals";
 
 const Nav = ({ handleShowHide }: { handleShowHide: () => any }) => {
-  //when user clicks a menu link or the element lost focus within the nav menu, close it
-  const closeNav = (e) => {
-    if (window.innerWidth < 576) {
-      handleShowHide();
-    } else {
-      e.target.blur();
-    }
-  };
-
   return (
-    <nav onClick={closeNav} className="main-nav">
+    <nav onClick={handleShowHide} className="main-nav">
       <ul>
         <li>
           <NavLink to="/">Home</NavLink>

@@ -1,37 +1,17 @@
-import { useState, useEffect } from "react";
 import Nav from "./Nav";
-
+import { useLockBodyScroll, useToggle } from "react-use";
 import { hamburgerIcon, closeIcon, myLogo } from "../Global/icon";
 import { NavLink } from "remix";
+import { useMedia } from "react-use";
 
 const Header = () => {
-  const [navOpen, setNavOpen] = useState(false);
+  const mediaQuery = useMedia("(min-width: 576px)");
+  const [navOpen, toggleNav] = useToggle(false);
 
-  const handleShowHide = () => {
-    setNavOpen(!navOpen);
-  };
-
-  const isDesktop = (e) => {
-    if (e.matches) {
-      setNavOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    let mediaQuery = window.matchMedia("(min-width: 576px)");
-    mediaQuery.addEventListener("change", isDesktop);
-    return () => mediaQuery.removeEventListener("change", isDesktop);
-  }, []);
-
-  // prevent scroll when mobile nav is open
-  useEffect(
-    () =>
-      (document.body.style.overflow = (navOpen ? "hidden" : "unset") as any),
-    [navOpen]
-  );
-
+  const navOpenV = navOpen && !mediaQuery;
+  useLockBodyScroll(navOpenV);
   return (
-    <header className={navOpen ? "active" : undefined}>
+    <header className={navOpenV ? "active" : undefined}>
       <div className="top-bar">
         <div className="header-logo-container">
           <NavLink to="/" className="header-logo">
@@ -39,15 +19,15 @@ const Header = () => {
           </NavLink>
         </div>
         <button
-          onClick={handleShowHide}
+          onClick={toggleNav}
           className="btn-main-nav"
           onMouseDown={(e) => {
             e.preventDefault();
           }}
         >
-          {!navOpen ? hamburgerIcon : closeIcon}
+          {!navOpenV ? hamburgerIcon : closeIcon}
         </button>
-        <Nav handleShowHide={handleShowHide} />
+        <Nav handleShowHide={toggleNav} />
       </div>
     </header>
   );

@@ -5,6 +5,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import Gallery from "~/components/Gallery/Gallery";
 import { Photo } from ".prisma/client";
 import { motion } from "framer-motion";
+import { useMedia } from "react-use";
 
 type LoaderData = {
   photos: (Photo & {
@@ -18,7 +19,11 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({
   params,
 }): Promise<LoaderData> => {
-  const photos = await db.photo.findMany();
+  const photos = await db.photo.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   const cld = new Cloudinary({
     cloud: {
       cloudName: "travisdevsite",
@@ -64,6 +69,15 @@ export default function Index() {
     },
   });
 
+  const medium = useMedia("(min-width: 720px)");
+  const large = useMedia("(min-width: 1728px)");
+
+  let cols = 1;
+  if (large) {
+    cols = 3;
+  } else if (medium) {
+    cols = 2;
+  }
   return (
     <motion.div
       className="photography-container main-wrapper"
@@ -71,7 +85,11 @@ export default function Index() {
       animate={{ opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 0.6 }}
     >
-      <Gallery photos={data.photos as any} direction={"column"} columns={3} />
+      <Gallery
+        photos={data.photos as any}
+        direction={"column"}
+        columns={cols}
+      />
     </motion.div>
   );
 }

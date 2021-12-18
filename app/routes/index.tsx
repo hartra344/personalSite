@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
 import ReactRotatingText from "react-rotating-text";
 import { MetaFunction } from "remix";
 
@@ -9,10 +8,6 @@ export let meta: MetaFunction = () => {
   };
 };
 const index = () => {
-  const elementRef = useRef(null);
-  const executeScroll = () =>
-    (elementRef.current as any)?.scrollIntoView({ behavior: "smooth" });
-
   return (
     <motion.div
       className="home-container main-wrapper"
