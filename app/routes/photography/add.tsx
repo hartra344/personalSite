@@ -2,6 +2,7 @@ import {
   ActionFunction,
   Form,
   Link,
+  LoaderFunction,
   MetaFunction,
   redirect,
   useActionData,
@@ -10,6 +11,7 @@ import {
 import { db } from "../../utils/db.server";
 import { cloudinary } from "../../utils/cloudinary.server";
 import numericQuantity from "numeric-quantity";
+import { authenticator } from "~/services/auth.server";
 type ActionData = {
   fieldErrors?: {
     name: string | undefined;
@@ -22,9 +24,19 @@ export let meta: MetaFunction = () => {
   };
 };
 
+export let loader: LoaderFunction = async ({ request }) => {
+  await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
+  return {};
+};
+
 export const action: ActionFunction = async ({
   request,
 }): Promise<Response | ActionData> => {
+  await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
   const form = await request.formData();
 
   const name = form.get("name") as string;
@@ -67,7 +79,7 @@ export const action: ActionFunction = async ({
         iso: +rs?.exif?.PhotographicSensitivity ?? 0,
       },
     });
-  } catch(err) {
+  } catch (err) {
     return {
       fieldErrors: {
         name: `${name} isn't in cloudinary`,

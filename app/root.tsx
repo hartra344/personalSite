@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import {
   Links,
   LiveReload,
+  LoaderFunction,
   Meta,
   MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLoaderData,
 } from "remix";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
@@ -37,8 +39,15 @@ export const meta: MetaFunction = () => {
   };
 };
 import Aos from "aos";
+import { authenticator } from "./services/auth.server";
+
+export let loader: LoaderFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request);
+  return { user };
+};
 
 const Layout: React.FC = ({ children }) => {
+  const { user } = useLoaderData();
   useEffect(() => {
     // Animate on scroll library initialization settings
     Aos.init({
@@ -50,7 +59,7 @@ const Layout: React.FC = ({ children }) => {
   }, []);
   return (
     <div className="site-wrapper">
-      <Header />
+      <Header loggedIn={!!user} />
       <Outlet />
       <Footer />
     </div>
