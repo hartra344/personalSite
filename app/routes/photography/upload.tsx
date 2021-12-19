@@ -41,18 +41,15 @@ export const action: ActionFunction = async ({
 const deleteImage = async (body: any) => {
     appInsights.defaultClient.trackEvent({ name: "photo upload", properties: body });
 
-    const name = body.public_id;
-
-    if (!name) {
-        appInsights.defaultClient.trackEvent({ name: 'delete failed', properties: { message: "name not specified" } })
-        return;
+    const resources = body.resources;
+    for (const resource of resources) {
+        await db.photo.deleteMany({
+            where: {
+                name: resource.public_id,
+            },
+        });
     }
 
-    await db.photo.deleteMany({
-        where: {
-            name,
-        },
-    });
 
 }
 
