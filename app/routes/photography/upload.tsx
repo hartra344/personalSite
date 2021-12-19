@@ -93,7 +93,8 @@ const uploadImage = async (body: any) => {
     }
 
     try {
-        const rs = await cloudinary.api.resource(name, { exif: true });
+        const rs = await cloudinary.api.resource(name, { exif: true, });
+        appInsights.defaultClient.trackEvent({ name: 'fetched admin data', properties: rs })
         await db.photo.create({
             data: {
                 name: name,
