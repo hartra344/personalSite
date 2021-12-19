@@ -20,29 +20,69 @@ export const action: ActionFunction = async ({
 
     let body = await request.json();
     appInsights.defaultClient.trackEvent({ name: "cloudinary notification", properties: body });
-    appInsights.defaultClient.flush();
-    if (body.notification_type !== 'upload') {
-        return new Response(JSON.stringify({}), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+
+    if (body.notification_type === 'upload') {
+        await uploadImage(body);
+    } else if (body.notification_type === 'delete') {
+        await deleteImage(body);
+    } else if (body.notification_type === 'rename') {
+        await renameImage(body);
     }
 
+    return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+};
+
+
+const deleteImage = async (body: any) => {
     appInsights.defaultClient.trackEvent({ name: "photo upload", properties: body });
-    appInsights.defaultClient.flush();
+
+    const name = body.public_id;
+
+    if (!name) {
+        appInsights.defaultClient.trackEvent({ name: 'delete failed', properties: { message: "name not specified" } })
+        return;
+    }
+
+    await db.photo.deleteMany({
+        where: {
+            name,
+        },
+    });
+
+}
+
+
+const renameImage = async (body: any) => {
+    appInsights.defaultClient.trackEvent({ name: "photo upload", properties: body });
+
+    const oldName = body.from_public_id;
+    const newName = body.to_public_id
+
+    await db.photo.updateMany({
+        where: {
+            name: oldName,
+        },
+        data: {
+            name: newName
+        }
+    });
+
+}
+
+const uploadImage = async (body: any) => {
+
+    appInsights.defaultClient.trackEvent({ name: "photo upload", properties: body });
+
     const name = body.public_id;
 
     if (!name) {
         appInsights.defaultClient.trackEvent({ name: 'upload failed', properties: { message: "name not specified" } })
-        appInsights.defaultClient.flush();
-        return new Response(JSON.stringify({}), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+        return;
     }
     const ex = await db.photo.findFirst({
         where: {
@@ -52,16 +92,9 @@ export const action: ActionFunction = async ({
 
     if (ex) {
         appInsights.defaultClient.trackEvent({ name: 'upload failed', properties: { message: "name already exists" } })
-        appInsights.defaultClient.flush();
-        return new Response(JSON.stringify({}), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+        return;
     }
 
-    await setTimeout(30000);
     try {
         const rs = await cloudinary.api.resource(name, { exif: true });
         await db.photo.create({
@@ -82,20 +115,7 @@ export const action: ActionFunction = async ({
         });
     } catch (err: any) {
         appInsights.defaultClient.trackEvent({ name: 'upload failed', properties: { message: "name not in cloudinary" } });
-        appInsights.defaultClient.trackException({ exception: err })
-        appInsights.defaultClient.flush();
-        return new Response(JSON.stringify({}), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+        appInsights.defaultClient.trackException({ exception: err });
     }
 
-    return new Response(JSON.stringify({}), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-};
+}
