@@ -16,6 +16,7 @@ import Header from "./components/Header/Header";
 import styles from "./styles/index.css";
 import aosStyle from "aos/dist/aos.css";
 import favicon from "./components/favicon.png";
+import { appInsights } from './services/insights.server';
 
 export function links() {
   return [
