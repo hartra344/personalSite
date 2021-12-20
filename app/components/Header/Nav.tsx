@@ -21,6 +21,11 @@ const Nav = ({
         </li>
         {loggedIn && (
           <li>
+            <NavLink to="/blog">Blog</NavLink>
+          </li>
+        )}
+        {loggedIn && (
+          <li>
             <NavLink to="/photography/add">Add Photo</NavLink>
           </li>
         )}
