@@ -62,7 +62,6 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
       style={{ margin, height: photo.height, width: photo.width, ...cont }}
     >
       <img
-        loading="lazy"
         alt={photo.alt}
         className="thumbnail"
         src={cld
