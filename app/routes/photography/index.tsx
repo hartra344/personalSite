@@ -13,6 +13,8 @@ type LoaderData = {
     lgHeight: number;
     lgWidth: number;
     alt: string;
+    caption?: string;
+    score?: number;
   })[];
 };
 
@@ -32,6 +34,8 @@ export const loader: LoaderFunction = async ({
   return {
     photos: photos.map((photo) => {
       const img = cld.image(photo.name).quality(100).toURL();
+      const context = photo?.ContextData as any;
+
       return {
         ...photo,
         src: img,
@@ -39,7 +43,9 @@ export const loader: LoaderFunction = async ({
         width: photo.width,
         lgHeight: photo.height,
         lgWidth: photo.width,
-        alt: "",
+        alt: context?.alt ?? "",
+        caption: context?.caption,
+        score: context?.score ? +context.score : 0,
       };
     }),
   };

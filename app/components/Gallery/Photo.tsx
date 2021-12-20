@@ -24,6 +24,8 @@ const cont = {
 export interface PhotoProps extends Photo {
   lgHeight: number;
   lgWidth: number;
+  alt: string;
+  score?: number;
 }
 const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
   photo,
@@ -54,22 +56,20 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
       data-src={photo.src}
       data-sub-html={`<h4 style="color:#eee">${toTitleCase(
         photo.artist
-      )}</h4><p>${photo.cameraMake} ${cameraModel} </p><p> ${
-        photo.lens
-      }</p><p>${photo.focalLength}mm | ${photo.shutterSpeed}s | f${
-        photo.fstop
-      } | ${photo.iso} iso</p> `}
+      )} ${photo.caption ? `- ${photo.caption}` : ''}</h4><p>${photo.cameraMake} ${cameraModel} </p><p> ${photo.lens
+        }</p><p>${photo.focalLength}mm | ${shutterSpeed}s | f${photo.fstop
+        } | ${photo.iso} iso</p> `}
       style={{ margin, height: photo.height, width: photo.width, ...cont }}
     >
       <img
         loading="lazy"
-        alt={photo.name}
+        alt={photo.alt}
         className="thumbnail"
         src={cld
           .image(photo.name)
           .resize(
             thumbnail()
-              .width(Math.floor(photo.lgWidth ))
+              .width(Math.floor(photo.lgWidth))
               .height(Math.floor(photo.lgHeight))
           )
           .format("auto")
