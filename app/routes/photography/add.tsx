@@ -5,18 +5,17 @@ import {
   LoaderFunction,
   MetaFunction,
   redirect,
-  useActionData,
   useCatch,
+  useLoaderData,
+  useTransition,
 } from "remix";
-import { db } from "../../utils/db.server";
-import { cloudinary } from "../../utils/cloudinary.server";
-import numericQuantity from "numeric-quantity";
+import "regenerator-runtime/runtime.js";
+import { WidgetLoader, Widget } from '@pointblankdev/react-cloudinary-upload';
 import { authenticator } from "~/services/auth.server";
-type ActionData = {
-  fieldErrors?: {
-    name: string | undefined;
-  };
-};
+import { useState } from "react";
+import { cloudinary } from "~/utils/cloudinary.server";
+import { db } from "~/utils/db.server";
+import ReactLoading from 'react-loading';
 
 export let meta: MetaFunction = () => {
   return {
@@ -28,98 +27,88 @@ export let loader: LoaderFunction = async ({ request }) => {
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
-  return {};
+  const cloudinaryKey = process.env.CLOUDINARY_KEY
+  return { cloudinaryKey };
 };
 
 export const action: ActionFunction = async ({
   request,
-}): Promise<Response | ActionData> => {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  });
-  const form = await request.formData();
+}): Promise<Response> => {
+  const formData = await request.formData();
 
-  const name = form.get("name") as string;
-  if (!name) {
-    return {
-      fieldErrors: {
-        name: "Name is required",
-      },
-    };
-  }
-  const ex = await db.photo.findFirst({
-    where: {
-      name,
-    },
-  });
+  const imageName = formData.get('imageName');
+  const caption = formData.get('caption');
+  const alt = formData.get('alt');
+  await cloudinary.uploader.add_context(`alt=${alt}`, [imageName as string ?? '']);
+  await cloudinary.uploader.add_context(`caption=${caption}`, [imageName as string ?? '']);
 
-  if (ex) {
-    return {
-      fieldErrors: {
-        name: `${name} already exists`,
-      },
-    };
-  }
-
-  try {
-    const rs = await cloudinary.api.resource(name, { exif: true });
-    await db.photo.create({
-      data: {
-        name: name,
-        caption: "",
-        width: rs?.width ?? 0,
-        height: rs?.height ?? 0,
-        artist: rs?.exif?.Artist ?? "",
-        shutterSpeed: rs?.exif?.ExposureTime ?? "0",
-        focalLength: rs?.exif?.FocalLengthIn35mmFilm ?? "0",
-        fstop: numericQuantity(rs?.exif?.FNumber ?? "0"),
-        lens: rs?.exif?.LensModel ?? "",
-        cameraMake: rs?.exif?.Make ?? "",
-        cameraModel: rs?.exif?.Model ?? "",
-        iso: +rs?.exif?.PhotographicSensitivity ?? 0,
-      },
+  let img: any = null;
+  while (!img) {
+    await new Promise(resolve => setTimeout(resolve, 9000));
+    img = await db.photo.findUnique({
+      where: {
+        name: imageName as string ?? ''
+      }
     });
-  } catch (err) {
-    return {
-      fieldErrors: {
-        name: `${name} isn't in cloudinary`,
-      },
-    };
-  }
 
-  return redirect(`/photography`);
-};
+  };
+
+  return redirect('/photography');
+}
 
 export default function AddPhotoRoute() {
-  const actionData = useActionData<ActionData>();
+  const { cloudinaryKey } = useLoaderData();
+  const [imageName, setImageName] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>();
+  const transition = useTransition();
+  if (transition.submission) {
+    return <div style={{ display: 'grid', placeItems: 'center' }}><ReactLoading type="spin" color="blue" height={'30%'} width={'30%'} /></div>
+  }
   return (
-    <Form method="post">
-      <h1>Add Photo</h1>
-      <div>
-        <label>
-          Name:{" "}
-          <input
-            type="text"
-            defaultValue={actionData?.fieldErrors?.name}
-            name="name"
-            aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
-            aria-describedby={
-              actionData?.fieldErrors?.name ? "name-error" : undefined
-            }
-          />
-        </label>
-        {actionData?.fieldErrors?.name ? (
-          <p className="form-validation-error" role="alert" id="name-error">
-            {actionData.fieldErrors.name}
+    <div style={{ display: 'grid', placeItems: 'center', height: '100%' }}>
+      {!imageName && (<><WidgetLoader />
+        <Widget
+          sources={['local']}
+          resourceType={'image'} // optionally set with 'auto', 'image', 'video' or 'raw' -> default = 'auto'
+          cloudName={'travisdevsite'} // your cloudinary account cloud name. 
+          // Located on https://cloudinary.com/console/
+          // uploadPreset={'preset1'} // check that an upload preset exists and check mode is signed or unisgned
+          cropping={false} // set ability to crop images -> default = true
+          onSuccess={(result) => { setImageName(result?.info?.public_id); setImageUrl(result?.info?.secure_url) }} // add success callback -> returns result
+          onFailure={() => { }} // add failure callback -> returns 'response.error' + 'response.result'
+          use_filename={true} // tell Cloudinary to use the original name of the uploaded 
+
+          generateSignatureUrl={'http://localhost:3000/photography/generateSignature'} // pass the api 
+          // endpoint for generating a signature -> check cloudinary docs and SDK's for signing uploads
+          apiKey={+cloudinaryKey} // cloudinary API key -> number format
+          accepts={'application/json'} // for signed uploads only -> default = 'application/json'
+          contentType={'application/json'} // for signed uploads only -> default = 'application/json'
+          withCredentials={true} // default = true -> check axios documentation for more information
+          unique_filename={true} // setting it to false, you can tell Cloudinary not to attempt to make 
+          multiple={false}
+        // the Public ID unique, and just use the normalized file name -> default = true
+        /></>)}
+
+      {
+        imageName && <Form method="post">
+          <img height={300} width={300} src={imageUrl ?? ''} />
+          <input type="hidden" id="imageName" name="imageName" value={imageName}></input>
+          <p>
+            <label>
+              Photo Caption: <input type="text" name="caption" />
+            </label>
           </p>
-        ) : null}
-      </div>
-      <div>
-        <button type="submit" className="button">
-          Add
-        </button>
-      </div>
-    </Form>
+          <p>
+            <label>
+              Post Alt Description: <input type="text" name="alt" />
+            </label>
+          </p>
+          <p>
+            <button type="submit">Update Info</button>
+          </p>
+        </Form>
+      }
+    </div>
   );
 }
 
