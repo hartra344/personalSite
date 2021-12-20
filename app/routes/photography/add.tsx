@@ -78,7 +78,7 @@ export default function AddPhotoRoute() {
           onFailure={() => { }} // add failure callback -> returns 'response.error' + 'response.result'
           use_filename={true} // tell Cloudinary to use the original name of the uploaded 
 
-          generateSignatureUrl={'http://localhost:3000/photography/generateSignature'} // pass the api 
+          generateSignatureUrl={'/photography/generateSignature'} // pass the api 
           // endpoint for generating a signature -> check cloudinary docs and SDK's for signing uploads
           apiKey={+cloudinaryKey} // cloudinary API key -> number format
           accepts={'application/json'} // for signed uploads only -> default = 'application/json'
