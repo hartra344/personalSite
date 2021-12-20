@@ -26,4 +26,5 @@ model Photo {
   cameraMake   String
   cameraModel  String
   iso          Int
+  ContextData  Json?
 }

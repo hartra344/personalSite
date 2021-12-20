@@ -27,6 +27,8 @@ export const action: ActionFunction = async ({
         await deleteImage(body);
     } else if (body.notification_type === 'rename') {
         await renameImage(body);
+    } else if (body.notification_type === 'resource_context_changed') {
+        await updateMetadata(body);
     }
 
     return new Response(JSON.stringify({}), {
@@ -37,6 +39,39 @@ export const action: ActionFunction = async ({
     });
 };
 
+const updateMetadata = async (body) => {
+    const data = {};
+
+    const resources = Object.keys(body.resources);
+    await Promise.all(resources.map(async image => {
+        const d = body.resources[image];
+        const cache = await db.photo.findUnique({
+            where: {
+                name: image
+            }
+        });
+        const contextData = cache?.ContextData ?? {};
+        for (const added of d.added) {
+            contextData[added.name] = added.value;
+        }
+        for (const updated of d.updated) {
+            contextData[updated.name] = updated.value;
+        }
+        for (const removed of d.removed) {
+            contextData[removed.name] = undefined;
+        }
+        await db.photo.update({
+            where: {
+                name: image
+            },
+            data: {
+                ContextData: contextData
+            }
+        });
+        console.log(contextData);
+    }));
+
+}
 
 const deleteImage = async (body: any) => {
     appInsights.defaultClient.trackEvent({ name: "photo upload", properties: body });
@@ -93,7 +128,7 @@ const uploadImage = async (body: any) => {
     }
 
     try {
-        const rs = await cloudinary.api.resource(name, { image_metadata: true, exif: true, context: true});
+        const rs = await cloudinary.api.resource(name, { image_metadata: true, exif: true, context: true });
         appInsights.defaultClient.trackEvent({ name: 'fetched admin data', properties: rs })
         await db.photo.create({
             data: {
