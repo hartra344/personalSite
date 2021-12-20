@@ -3,6 +3,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import React from "react";
 import { RenderImageProps } from "react-photo-gallery";
+import { twitterTag } from "../Global/globals";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
@@ -51,7 +52,11 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
   return (
     <a
       key={photo.id}
-      data-lg-size={`${photo.lgWidth}-${photo.lgHeight}`} //"1406-1390"
+      data-lg-size={`${photo.lgWidth}-${photo.lgHeight}`}
+      data-slide-name={photo.name}
+      data-tweet-text={`${photo.caption} - by ${twitterTag}`}
+      data-pinterest-text={`${photo.caption} - by Travis Harris`}
+      data-facebook-text={`${photo.caption} - by Travis Harris`}
       className="gallery-item"
       data-src={photo.src}
       data-sub-html={`<h4 style="color:#eee">${toTitleCase(

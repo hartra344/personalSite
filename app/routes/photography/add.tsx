@@ -69,24 +69,19 @@ export default function AddPhotoRoute() {
       {!imageName && (<><WidgetLoader />
         <Widget
           sources={['local']}
-          resourceType={'image'} // optionally set with 'auto', 'image', 'video' or 'raw' -> default = 'auto'
-          cloudName={'travisdevsite'} // your cloudinary account cloud name. 
-          // Located on https://cloudinary.com/console/
-          // uploadPreset={'preset1'} // check that an upload preset exists and check mode is signed or unisgned
-          cropping={false} // set ability to crop images -> default = true
-          onSuccess={(result) => { setImageName(result?.info?.public_id); setImageUrl(result?.info?.secure_url) }} // add success callback -> returns result
-          onFailure={() => { }} // add failure callback -> returns 'response.error' + 'response.result'
-          use_filename={true} // tell Cloudinary to use the original name of the uploaded 
+          resourceType={'image'} 
+          cloudName={'travisdevsite'} 
+          onSuccess={(result) => { setImageName(result?.info?.public_id); setImageUrl(result?.info?.secure_url) }} 
+          onFailure={() => { }} 
+          use_filename={true} 
 
-          generateSignatureUrl={'/photography/generateSignature'} // pass the api 
-          // endpoint for generating a signature -> check cloudinary docs and SDK's for signing uploads
-          apiKey={+cloudinaryKey} // cloudinary API key -> number format
-          accepts={'application/json'} // for signed uploads only -> default = 'application/json'
-          contentType={'application/json'} // for signed uploads only -> default = 'application/json'
-          withCredentials={true} // default = true -> check axios documentation for more information
-          unique_filename={true} // setting it to false, you can tell Cloudinary not to attempt to make 
+          generateSignatureUrl={'/photography/generateSignature'} 
+          apiKey={+cloudinaryKey} 
+          accepts={'application/json'} 
+          contentType={'application/json'} 
+          withCredentials={true} 
+          unique_filename={true} 
           multiple={false}
-        // the Public ID unique, and just use the normalized file name -> default = true
         /></>)}
 
       {

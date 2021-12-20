@@ -7,7 +7,8 @@ import { findIdealNodeSearch } from "./utils/findIdealNodeSearch";
 import LightGallery from "lightgallery/react";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
-
+import lgHash from 'lightgallery/plugins/hash';
+import lgShare from 'lightgallery/plugins/share';
 const Gallery = React.memo(function Gallery({
   photos,
   onClick,
@@ -111,7 +112,7 @@ const Gallery = React.memo(function Gallery({
     <div className="react-photo-gallery--gallery">
       <div ref={galleryEl} style={galleryStyle}>
         <LightGallery
-          plugins={[lgThumbnail, lgZoom]}
+          plugins={[lgThumbnail, lgZoom, lgHash, lgShare]}
           mode="lg-fade"
           licenseKey="9DFC44F2-0E4543E3-83FD2640-996B2792"
         >
