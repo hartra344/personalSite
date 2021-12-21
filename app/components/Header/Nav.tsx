@@ -1,4 +1,4 @@
-import { NavLink, useLoaderData } from "remix";
+import { NavLink } from "remix";
 import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { AiFillGithub } from "react-icons/ai";
 import { gitHubURL, linkedInURL, twitterURL } from "../Global/globals";
