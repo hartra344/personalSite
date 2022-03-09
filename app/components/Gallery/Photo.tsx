@@ -1,7 +1,6 @@
 import React from "react";
 import { RenderImageProps } from "react-photo-gallery";
 import { twitterTag } from "../Global/globals";
-import Image from "remix-image";
 
 const cont = {
   backgroundColor: "#eee",
@@ -46,7 +45,7 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       key={photo.name}
-      data-lg-size={`${photo.width*2}-${photo.height*2}`}
+      data-lg-size={`${photo.width * 2}-${photo.height * 2}`}
       data-slide-name={photo.name}
       data-tweet-text={`${photo.caption} - by ${twitterTag}`}
       data-pinterest-text={`${photo.caption} - by Travis Harris`}
@@ -62,10 +61,7 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
       } | ${photo.iso} iso</p> `}
       style={{ margin, height: photo.height, width: photo.width, ...cont }}
     >
-      <Image
-        src={`photos/${photo.file}`}
-        alt={photo.caption}
-      />
+      <img src={`photos/${photo.file}`} alt={photo.caption} />
     </a>
   );
 };
