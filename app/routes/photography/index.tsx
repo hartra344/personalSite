@@ -3,7 +3,7 @@ import Gallery from "../../components/Gallery/Gallery";
 import { motion } from "framer-motion";
 import { useMedia } from "react-use";
 
-import data from "./photoData.json";
+import data from "../../components/photoData.json";
 
 export let meta: MetaFunction = () => {
   return {
