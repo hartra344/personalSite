@@ -2,21 +2,19 @@ import { useEffect } from "react";
 import {
   Links,
   LiveReload,
-  LoaderFunction,
   Meta,
   MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
   useCatch,
-  useLoaderData,
 } from "remix";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import styles from "./styles/index.css";
 import aosStyle from "aos/dist/aos.css";
 import favicon from "./components/favicon.png";
-import { appInsights } from './services/insights.server';
+import Aos from "aos";
 
 export function links() {
   return [
@@ -39,16 +37,9 @@ export const meta: MetaFunction = () => {
     "twitter:description": description,
   };
 };
-import Aos from "aos";
-import { authenticator } from "./services/auth.server";
 
-export let loader: LoaderFunction = async ({ request }) => {
-  const user = await authenticator.isAuthenticated(request);
-  return { user };
-};
 
 const Layout: React.FC = ({ children }) => {
-  const { user } = useLoaderData();
   useEffect(() => {
     // Animate on scroll library initialization settings
     Aos.init({
@@ -60,7 +51,7 @@ const Layout: React.FC = ({ children }) => {
   }, []);
   return (
     <div className="site-wrapper">
-      <Header loggedIn={!!user} />
+      <Header />
       <Outlet />
       <Footer />
     </div>

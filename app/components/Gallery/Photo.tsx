@@ -1,18 +1,8 @@
-import { Photo } from ".prisma/client";
-import { Cloudinary } from "@cloudinary/url-gen";
-import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import React from "react";
 import { RenderImageProps } from "react-photo-gallery";
 import { twitterTag } from "../Global/globals";
+import Image from "remix-image";
 
-function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
-}
-const imgStyle = {
-  transition: "transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s",
-};
 const cont = {
   backgroundColor: "#eee",
   cursor: "pointer",
@@ -22,11 +12,23 @@ const cont = {
   top: undefined as any,
 };
 
-export interface PhotoProps extends Photo {
-  lgHeight: number;
-  lgWidth: number;
+export interface PhotoProps {
   alt: string;
   score?: number;
+  name: string;
+  file: string;
+  caption: string;
+  createdAt: number;
+  width: number;
+  height: number;
+  artist: string;
+  shutterSpeed: string;
+  focalLength: string;
+  fstop: number;
+  lens: string;
+  cameraMake: string;
+  cameraModel: string;
+  iso: number;
 }
 const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
   photo,
@@ -40,45 +42,29 @@ const Photo: React.ComponentType<RenderImageProps<PhotoProps>> = ({
     cont.left = left;
     cont.top = top;
   }
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "travisdevsite",
-    },
-  });
-  const cameraModel = photo.cameraModel === "ILCE-1" ? "a1" : photo.cameraModel;
-  const shutterSpeed = photo.shutterSpeed?.endsWith("/1")
-    ? photo.shutterSpeed.split("/")[0]
-    : photo.shutterSpeed;
   return (
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
-      key={photo.id}
-      data-lg-size={`${photo.lgWidth}-${photo.lgHeight}`}
+      key={photo.name}
+      data-lg-size={`${photo.width*2}-${photo.height*2}`}
       data-slide-name={photo.name}
       data-tweet-text={`${photo.caption} - by ${twitterTag}`}
       data-pinterest-text={`${photo.caption} - by Travis Harris`}
       data-facebook-text={`${photo.caption} - by Travis Harris`}
       className="gallery-item"
-      data-src={photo.src}
-      data-sub-html={`<h4 style="color:#eee">${toTitleCase(
-        photo.artist
-      )} ${photo.caption ? `- ${photo.caption}` : ''}</h4><p>${photo.cameraMake} ${cameraModel} </p><p> ${photo.lens
-        }</p><p>${photo.focalLength}mm | ${shutterSpeed}s | f${photo.fstop
-        } | ${photo.iso} iso</p> `}
+      data-src={`photos/${photo.file}`}
+      data-sub-html={`<h4 style="color:#eee"> Travis Harris ${
+        photo.caption ? `- ${photo.caption}` : ""
+      }</h4><p>${photo.cameraMake} ${photo.cameraModel} </p><p> ${
+        photo.lens
+      }</p><p>${photo.focalLength}mm | ${photo.shutterSpeed}s | f${
+        photo.fstop
+      } | ${photo.iso} iso</p> `}
       style={{ margin, height: photo.height, width: photo.width, ...cont }}
     >
-      <img
-        alt={photo.alt}
-        className="thumbnail"
-        src={cld
-          .image(photo.name)
-          .resize(
-            thumbnail()
-              .width(Math.floor(photo.lgWidth))
-              .height(Math.floor(photo.lgHeight))
-          )
-          .format("auto")
-          .quality(65)
-          .toURL()}
+      <Image
+        src={`photos/${photo.file}`}
+        alt={photo.caption}
       />
     </a>
   );

@@ -1,10 +1,9 @@
 import Nav from "./Nav";
-import { useLockBodyScroll, useToggle } from "react-use";
+import { useLockBodyScroll, useToggle, useMedia } from "react-use";
 import { hamburgerIcon, closeIcon, myLogo } from "../Global/icon";
 import { NavLink } from "remix";
-import { useMedia } from "react-use";
 
-const Header = ({ loggedIn }: { loggedIn: boolean }) => {
+const Header = () => {
   const mediaQuery = useMedia("(min-width: 576px)");
   const [navOpen, toggleNav] = useToggle(false);
 
@@ -27,7 +26,7 @@ const Header = ({ loggedIn }: { loggedIn: boolean }) => {
         >
           {!navOpenV ? hamburgerIcon : closeIcon}
         </button>
-        <Nav handleShowHide={toggleNav} loggedIn={loggedIn} />
+        <Nav handleShowHide={toggleNav} />
       </div>
     </header>
   );

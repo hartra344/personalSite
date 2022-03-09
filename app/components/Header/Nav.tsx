@@ -3,13 +3,7 @@ import { FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { AiFillGithub } from "react-icons/ai";
 import { gitHubURL, linkedInURL, twitterURL } from "../Global/globals";
 
-const Nav = ({
-  handleShowHide,
-  loggedIn,
-}: {
-  handleShowHide: () => any;
-  loggedIn: boolean;
-}) => {
+const Nav = ({ handleShowHide }: { handleShowHide: () => any }) => {
   return (
     <nav onClick={handleShowHide} className="main-nav">
       <ul>
@@ -19,21 +13,6 @@ const Nav = ({
         <li>
           <NavLink to="/photography">Photography</NavLink>
         </li>
-        {loggedIn && (
-          <li>
-            <NavLink to="/blog">Blog</NavLink>
-          </li>
-        )}
-        {loggedIn && (
-          <li>
-            <NavLink to="/photography/add">Add Photo</NavLink>
-          </li>
-        )}
-        {loggedIn && (
-          <li>
-            <NavLink to="/logout">Log Out</NavLink>
-          </li>
-        )}
 
         <li className="nav-social-media">
           <a

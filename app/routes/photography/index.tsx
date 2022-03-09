@@ -1,55 +1,9 @@
-import { LoaderFunction, MetaFunction, useLoaderData } from "remix";
-import { db } from "~/utils/db.server";
-
-import { Cloudinary } from "@cloudinary/url-gen";
-import Gallery from "~/components/Gallery/Gallery";
-import { Photo } from ".prisma/client";
+import { MetaFunction } from "remix";
+import Gallery from "../../components/Gallery/Gallery";
 import { motion } from "framer-motion";
 import { useMedia } from "react-use";
 
-type LoaderData = {
-  photos: (Photo & {
-    src: string;
-    lgHeight: number;
-    lgWidth: number;
-    alt: string;
-    caption?: string;
-    score?: number;
-  })[];
-};
-
-export const loader: LoaderFunction = async ({
-  params,
-}): Promise<LoaderData> => {
-  const photos = await db.photo.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "travisdevsite",
-    },
-  });
-  return {
-    photos: photos.map((photo) => {
-      const img = cld.image(photo.name).quality(100).toURL();
-      const context = photo?.ContextData as any;
-
-      return {
-        ...photo,
-        src: img,
-        height: photo.height,
-        width: photo.width,
-        lgHeight: photo.height,
-        lgWidth: photo.width,
-        alt: context?.alt ?? "",
-        caption: context?.caption,
-        score: context?.score ? +context.score : 0,
-      };
-    }),
-  };
-};
+import data from "./photoData.json";
 
 export let meta: MetaFunction = () => {
   return {
@@ -67,14 +21,6 @@ export function links() {
 }
 
 export default function Index() {
-  const data = useLoaderData<LoaderData>();
-
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: "travisdevsite",
-    },
-  });
-
   const medium = useMedia("(min-width: 720px)");
   const large = useMedia("(min-width: 1728px)");
 
@@ -92,7 +38,7 @@ export default function Index() {
       transition={{ ease: "easeInOut", duration: 0.6 }}
     >
       <Gallery
-        photos={data.photos as any}
+        photos={data.sort((a, b) => b.createdAt - a.createdAt) as any}
         direction={"column"}
         columns={cols}
       />
