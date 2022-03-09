@@ -2,6 +2,12 @@ import { motion } from "framer-motion";
 import ReactRotatingText from "react-rotating-text";
 import { MetaFunction } from "remix";
 
+export function headers() {
+  return {
+    "cache-control": "max-age=604800, stale-while-revalidate=86400",
+  };
+}
+
 export let meta: MetaFunction = () => {
   return {
     title: "Travis Harris",

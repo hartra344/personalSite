@@ -5,6 +5,12 @@ import { useMedia } from "react-use";
 
 import data from "../../components/photoData.json";
 
+export function headers() {
+  return {
+    "cache-control": "max-age=604800, stale-while-revalidate=86400"
+  }
+}
+
 export let meta: MetaFunction = () => {
   return {
     title: "Travis Harris - Photography",
