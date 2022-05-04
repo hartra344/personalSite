@@ -32,7 +32,7 @@ const index = () => {
             <p>
               A{" "}
               <ReactRotatingText
-                items={["Developer", "Dev Manager", "Photographer", "Gamer"]}
+                items={["Developer", "Dev Manager", "Photographer", "Gamer", "Pilot"]}
               />{" "}
               based in Seattle, Washington
             </p>
