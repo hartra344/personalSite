@@ -123,7 +123,6 @@ function Document({
   children: React.ReactNode;
   title?: string;
 }) {
-  console.log(process.env.NODE_ENV);
   return (
     <html lang="en">
       <head>
