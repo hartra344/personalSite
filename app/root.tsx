@@ -8,7 +8,9 @@ import {
   ScrollRestoration,
   useCatch,
 } from "@remix-run/react";
-import { MetaFunction } from "@remix-run/node";
+import {
+  MetaFunction
+} from '@remix-run/node'
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import styles from "./styles/index.css";
@@ -38,7 +40,8 @@ export const meta: MetaFunction = () => {
   };
 };
 
-const Layout: React.FC = () => {
+
+const Layout: React.FC = ({ children }) => {
   useEffect(() => {
     // Animate on scroll library initialization settings
     Aos.init({
@@ -59,7 +62,9 @@ const Layout: React.FC = () => {
 export default function App() {
   return (
     <Document>
-      <Layout></Layout>
+      <Layout>
+        <Outlet />
+      </Layout>
     </Document>
   );
 }

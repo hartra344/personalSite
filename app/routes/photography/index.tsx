@@ -29,7 +29,6 @@ export function links() {
 export default function Index() {
   const medium = useMedia("(min-width: 720px)");
   const large = useMedia("(min-width: 1728px)");
-
   let cols = 1;
   if (large) {
     cols = 3;
