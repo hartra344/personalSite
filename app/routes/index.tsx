@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import ReactRotatingText from "react-rotating-text";
-import { MetaFunction } from "remix";
+import { MetaFunction } from "@remix-run/node";
 
 export function headers() {
   return {

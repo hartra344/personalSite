@@ -1,4 +1,4 @@
-import { MetaFunction } from "remix";
+import { MetaFunction } from "@remix-run/node";
 import Gallery from "../../components/Gallery/Gallery";
 import { motion } from "framer-motion";
 import { useMedia } from "react-use";
